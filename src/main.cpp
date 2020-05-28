@@ -52,23 +52,7 @@
 
 //-----------------------------------------------------------------------------
 
-const uint16_t paletteHue[PALETTE_COLORS] = {
-    0x0000,  // Black
-    0x0000,  // White
-    0xFFFF,  // Red
-    0x1111,  // Orange
-    0x2525,  // Yellow
-    0x4444,  // Green
-    0x7777,  // Light Blue
-    0x9999,  // Deep Blue
-    0xBBBB,  // Purple
-    0xDDDD}; // Pink
-
-uint32_t paletteRGB[PALETTE_COLORS] = {
-    0x000000, // Black
-    0xFFFFFF, // White
-};
-
+uint32_t paletteRGB[PALETTE_COLORS] = {};
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, RGB_PIN, NEO_GRB + NEO_KHZ800);
 uint8_t lcd[NUMPIXELS] = {};
 CursorStructure cursor = {};
@@ -170,24 +154,6 @@ void lcdRemoveColor(uint8_t removeColor)
   }
 }
 
-// /**
-//  * Проверяет имеет ли соседние точки заданный цвет
-//  * @param  {uint8_t} vector :
-//  * @param  {uint8_t} color  :
-//  * @return {bool}           :
-//  */
-// bool lcdHasColorAround(uint8_t vector, uint8_t color)
-// {
-//   if (lcd[vector + 1] == color ||
-//       lcd[vector - 1] == color ||
-//       lcd[vector + 8] == color ||
-//       lcd[vector - 8] == color)
-//   {
-//     return true;
-//   }
-//   return false;
-// }
-
 /**
  * Рисует точку заданного цвета палитры
  */
@@ -259,7 +225,7 @@ void lcdRender()
  * Выводим заставку
  * @param  {uint8_t} type :
  */
-void lcdSplahScreen(uint8_t type)
+void lcdSplashScreen(uint8_t type)
 {
   uint8_t i, j;
 
@@ -340,10 +306,7 @@ void soundMelody()
       NOTE_A4, NOTE_A4, NOTE_C5, NOTE_E5, NOTE_D5, NOTE_C5,
       NOTE_B4, NOTE_B4, NOTE_C5, NOTE_D5, NOTE_E5,
       NOTE_C5, NOTE_A4, NOTE_A4, 0,
-      // 0, NOTE_D5, NOTE_F5, NOTE_A5, NOTE_G5, NOTE_F5,
-      // NOTE_E5, NOTE_E5, NOTE_C5, NOTE_E5, NOTE_D5, NOTE_C5,
-      // NOTE_B4, NOTE_B4, NOTE_C5, NOTE_D5, NOTE_E5,
-      // NOTE_C5, NOTE_A4, NOTE_A4, 0
+      //
   };
 
   int noteDurations[] = {
@@ -351,10 +314,7 @@ void soundMelody()
       4, 8, 8, 4, 8, 8,
       4, 8, 8, 4, 4,
       4, 4, 4, 4,
-      // 8, 4, 8, 4, 8, 8,
-      // 4, 8, 8, 4, 8, 8,
-      // 4, 8, 8, 4, 4,
-      // 4, 4, 4, 4
+      //
   };
 
   for (int thisNote = 0; thisNote < 21; thisNote++)
@@ -659,7 +619,7 @@ void gameOver()
 {
   tone(BUZZER_PIN, NOTE_C3, 200);
   delay(300);
-  lcdSplahScreen(SPLASH_SCREEN_RAINBOW);
+  lcdSplashScreen(SPLASH_SCREEN_RAINBOW);
   delay(1000);
 
   lcdClear();
@@ -673,7 +633,7 @@ void gameWin()
   resetCursor();
   lcdRender();
   soundMelody();
-  lcdSplahScreen(SPLASH_SCREEN_RAINBOW);
+  lcdSplashScreen(SPLASH_SCREEN_RAINBOW);
   delay(2000);
   resetApp();
   lcdClear();
@@ -766,9 +726,9 @@ void appFlow()
     // Level complete
     if (i == NUMPIXELS)
     {
-      lcdSplahScreen(SPLASH_SCREEN_FLASH);
+      lcdSplashScreen(SPLASH_SCREEN_FLASH);
       delay(300);
-      lcdSplahScreen(SPLASH_SCREEN_FADE_OUT);
+      lcdSplashScreen(SPLASH_SCREEN_FADE_OUT);
       delay(300);
 
       // Game complete
@@ -1134,7 +1094,7 @@ void appMenu()
   {
     soundBeep();
     currentApp = charNumber;
-    lcdSplahScreen(SPLASH_SCREEN_FADE_OUT);
+    lcdSplashScreen(SPLASH_SCREEN_FADE_OUT);
     lcdClear();
     return;
   }
