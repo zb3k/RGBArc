@@ -19,7 +19,7 @@ void Lcd::setBrightness(uint8_t brightness)
     }
 }
 
-void Lcd::show()
+void Lcd::sync()
 {
     this->LED.sync();
 }

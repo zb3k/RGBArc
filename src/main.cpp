@@ -5,22 +5,15 @@
 #include <Sound.h>
 #include <Controls/Controls.h>
 #include <Cursor.h>
-#include <CoreApp.h>
 #include <BaseApplication.h>
 #include <Apps/MenuApplication.h>
 #include <Apps/TestControlsApplication.h>
 #include <Apps/DrawApplication.h>
 #include <Apps/TimerApplication.h>
 
-/*
-  ######   #######  ##    ## ######## ####  ######
- ##    ## ##     ## ###   ## ##        ##  ##    ##
- ##       ##     ## ####  ## ##        ##  ##
- ##       ##     ## ## ## ## ######    ##  ##   ####
- ##       ##     ## ##  #### ##        ##  ##    ##
- ##    ## ##     ## ##   ### ##        ##  ##    ##
-  ######   #######  ##    ## ##       ####  ######
-*/
+// -----------------------------------------------------------------------------
+// Applications
+// -----------------------------------------------------------------------------
 
 TestControlsApplication appTestControls;
 MenuApplication appMenu;
@@ -33,33 +26,24 @@ BaseApplication *apps[TOTAL_APPS] = {
     &appDraw,
     &appTestControls};
 
-/*
- ##     ##    ###    ########   ######
- ##     ##   ## ##   ##     ## ##    ##
- ##     ##  ##   ##  ##     ## ##
- ##     ## ##     ## ########   ######
-  ##   ##  ######### ##   ##         ##
-   ## ##   ##     ## ##    ##  ##    ##
-    ###    ##     ## ##     ##  ######
-*/
+uint8_t currentApp = 0;
+
+// -----------------------------------------------------------------------------
+// Core libraries
+// -----------------------------------------------------------------------------
+
 Lcd lcd;
 Controls ctrl;
 Cursor cursor;
-CoreApp app;
 Sound sound;
 
-/*
-  ######  ######## ######## ##     ## ########
- ##    ## ##          ##    ##     ## ##     ##
- ##       ##          ##    ##     ## ##     ##
-  ######  ######      ##    ##     ## ########
-       ## ##          ##    ##     ## ##
- ##    ## ##          ##    ##     ## ##
-  ######  ########    ##     #######  ##
-*/
+// -----------------------------------------------------------------------------
+// Setup
+// -----------------------------------------------------------------------------
+
 void setup()
 {
-  Serial.begin(9600);
+  // Serial.begin(9600);
 
   ctrl.setup();
 
@@ -72,18 +56,47 @@ void setup()
   cursor.setup();
 }
 
-/*
- ##        #######   #######  ########
- ##       ##     ## ##     ## ##     ##
- ##       ##     ## ##     ## ##     ##
- ##       ##     ## ##     ## ########
- ##       ##     ## ##     ## ##
- ##       ##     ## ##     ## ##
- ########  #######   #######  ##
-*/
+// -----------------------------------------------------------------------------
+// Loop
+// -----------------------------------------------------------------------------
+
 void loop()
 {
   ctrl.read();
-  app.render();
+
+  // FIXME: Slow
+  // if (ctrl.btnStart.pressedFor(EXIT_PRESS_WAIT))
+  // {
+  //     selectApp(0); // Open main menu
+  // }
+
+  cursor.processing();
+
+  apps[currentApp]->processing();
+
+  lcd.renderScene();
+
+  cursor.render();
+
+  // apps[currentApp]->postProcessing();
+
+  lcd.sync();
+
   sound.processing();
+}
+
+// -----------------------------------------------------------------------------
+// Helpers
+// -----------------------------------------------------------------------------
+
+void selectApp(uint8_t appIndex)
+{
+  // cursor.reset();
+  // lcd.clearScene();
+
+  lcd.clear();
+
+  currentApp = appIndex;
+
+  apps[currentApp]->start();
 }

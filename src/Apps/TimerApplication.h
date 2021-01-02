@@ -49,7 +49,7 @@ public:
 
             // tens = time / 10;
             // ones = time % 10;
-
+            sound.tick();
             lcd.setScenePixel(this->time, COLOR_RED);
             // lcdChar(1, 2, tens, COLOR_PINK);
             // lcdChar(4, 2, ones, COLOR_DEEP_BLUE);
@@ -63,36 +63,23 @@ public:
         }
     };
 
+private:
     bool isSecondTick()
     {
-        unsigned long currentMillis = millis();
-        uint16_t DIFF1000 = currentMillis - this->secondTick; //DIFF=1001 -0 =1001
-        if (DIFF1000 >= 1000)
+        uint32_t now = millis();
+
+        if (this->secondTick == 0)
         {
-            this->secondTick = currentMillis - (DIFF1000 - 1000);
-            return true;
-            //1001+1, make next time we get in here w/ a little fast
+            this->secondTick = now;
         }
+
+        if (now >= this->secondTick)
+        {
+            this->secondTick += 1000;
+            return true;
+        }
+
         return false;
-
-        // // uint32_t static timer = 0;
-        // uint32_t now = millis();
-
-        // if (this->secondTick == 0)
-        // {
-        //     this->secondTick = now;
-        // }
-
-        // if (now >= this->secondTick)
-        // {
-        //     Serial.print(now);
-        //     Serial.print("   ");
-        //     Serial.println(this->secondTick);
-        //     this->secondTick += 1000;
-        //     return true;
-        // }
-
-        // return false;
     };
 };
 

@@ -1,16 +1,16 @@
-# RGB Arc
+# PixelBoy
 
 ## Games:
 - [X] Paint
-- [X] Flow
-- [X] Tetris
-- [X] Maze
-- [X] Snake
+- [ ] Flow
+- [ ] Tetris
+- [ ] Maze
+- [ ] Snake
 
 ## TODO:
-- [X] LCD: Display text
-- [ ] LCD: Fade, scroll animations
 - [X] Game: menu
+- [ ] LCD: Display text
+- [ ] LCD: Fade, scroll animations
 - [ ] End game screen (score)
 - [ ] Win screen
 - [ ] Store records
@@ -19,7 +19,7 @@
 - [ ] Flow: Add levels
 - [ ] Tetris: Fix rotate glitch
 - [ ] Tetris: show next figure as overlay
-- [X] Maze: level generator
+- [ ] Maze: level generator
 - [ ] Snake: Цель появляется на змее 
 - [ ] Reset all stat hotkeys
 
@@ -27,6 +27,7 @@
 - [ ] Sound + ON/OFF Potentiometer
 - [ ] Brightness potentiometer
 - [ ] Reset btn
-- [ ] Select btn
-- [ ] Battary
+- [X] Select btn
+- [X] Battary
+- [ ] Battary ADC (battery level)
 - [ ] Charger

@@ -1,7 +1,6 @@
-#include <CoreApp.h>
 #include <BaseApplication.h>
 
-extern CoreApp app;
+extern BaseApplication *apps[];
 
 class MenuApplication : public BaseApplication
 {
@@ -30,7 +29,7 @@ public:
         // Select app
         if (ctrl.btnStart.wasPressed())
         {
-            app.selectApp(appIndex);
+            selectApp(appIndex);
         }
     };
 

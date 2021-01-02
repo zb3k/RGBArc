@@ -1,3 +1,7 @@
+/*
+    Original idea: http://www.technoblogy.com/show?19YT
+*/
+
 #ifndef SOUND_h
 #define SOUND_h
 
@@ -8,28 +12,22 @@ const uint8_t soundScale[] PROGMEM = {239, 226, 213, 201, 190, 179, 169, 160, 15
 class Sound
 {
 public:
-    unsigned long noteDurationMillis = 0;
-    uint8_t noteDuration = 0;
-    boolean outputTone = false; // Records current state
+    unsigned long noteDuration = 0;
+    // boolean outputTone = false; // Records current state
 
     void setup()
     {
         pinMode(BUZZER_PIN, OUTPUT);
     }
 
-    bool notPlayed()
-    {
-        return this->noteDurationMillis == 0;
-    }
-
     void processing()
     {
-        if (!this->notPlayed())
+        if (this->noteDuration)
         {
-            if (millis() >= this->noteDurationMillis)
+            if (millis() >= this->noteDuration)
             {
-                this->_note(0);
-                this->noteDurationMillis = 0;
+                this->playNote(0);
+                this->noteDuration = 0;
             }
         }
     }
@@ -46,31 +44,31 @@ public:
 
     void tone(uint8_t note, uint8_t duration, uint16_t silentAfter = 0)
     {
-        this->noteDurationMillis = millis() + duration;
-        this->_note(note);
+        this->noteDuration = millis() + duration;
+        this->playNote(note);
     }
 
 private:
-    // void _note(uint8_t noteOctave)
-    // {
-    //     uint8_t note = (noteOctave >> 4);
-    //     uint8_t octave = noteOctave & 0xF;
-    //     this->_note(note, octave);
-    // }
-
-    // http://www.technoblogy.com/show?19YT
     // Range: C3 - B6
-    void _note(uint8_t note)
+    void playNote(uint8_t note)
     {
-        note--;
-        TCCR2A = 0 << COM2A0 | 1 << COM2B0 | 2 << WGM20; // Toggle OC2B on match
-        // int prescaler = 9 - (octave + n / 12);
-        int prescaler = 9 - (3 + note / 12);
-        if (prescaler < 3 || prescaler > 6)
+        int prescaler = 0;
+
+        if (note)
         {
-            prescaler = 0;
+            note--;
+            prescaler = 9 - (3 + note / 12);
+            if (prescaler < 3 || prescaler > 6)
+            {
+                prescaler = 0;
+            }
+            else
+            {
+                TCCR2A = 0 << COM2A0 | 1 << COM2B0 | 2 << WGM20;
+                OCR2A = pgm_read_byte(&soundScale[note % 12]) - 1;
+            }
         }
-        OCR2A = pgm_read_byte(&soundScale[note % 12]) - 1;
+
         TCCR2B = 0 << WGM22 | prescaler << CS20;
     }
 };

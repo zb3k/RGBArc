@@ -4,8 +4,6 @@
 #include <header.h>
 #include <WS2812.h>
 
-#define LCD_NUMPIXELS (LCD_WIDTH * LCD_HEIGHT)
-
 #define LCD_VECTOR(X, Y) (X + Y * LCD_WIDTH)
 
 class Lcd
@@ -19,7 +17,7 @@ public:
 
     // Core methods
     void setup();
-    void show();
+    void sync();
     void setBrightness(uint8_t brightness);
 
     // Direct draw methods

@@ -1,5 +1,5 @@
-#ifndef HEADER_h
-#define HEADER_h
+#ifndef _HEADER_h
+#define _HEADER_h
 
 #include <Arduino.h>
 
@@ -45,14 +45,8 @@
 // Максимальная яркость (от 0 до 255)
 #define LCD_MAX_BRIGHTNESS 15
 
-// NeoPixel type flags, add together as needed:
-//   NEO_KHZ800  800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)
-//   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
-//   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
-//   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
-//   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
-// #define LCD_TYPE (NEO_GRB + NEO_KHZ800)
-// #define LCD_TYPE (NEO_GRB + NEO_KHZ400)
+//
+#define LCD_NUMPIXELS (LCD_WIDTH * LCD_HEIGHT)
 
 /*
   ######   #######  ##        #######  ########   ######
@@ -90,7 +84,7 @@
 
 #define LONG_PRESS_WAIT 150
 #define LONG_PRESS_INTERVAL 50
-#define EXIT_PRESS_WAIT 1000
+// #define EXIT_PRESS_WAIT 1000
 
 /*
   ######  ##     ## ########   ######   #######  ########
@@ -124,8 +118,6 @@ struct AppState
 {
   uint8_t appIndex;
 };
-
-#endif
 
 /*
   ######   #######  ##     ## ##    ## ########
@@ -191,3 +183,17 @@ struct AppState
 #define NOTE_A6 46
 #define NOTE_AS6 47
 #define NOTE_B6 48
+
+/*
+  ######   ##        #######  ########     ###    ##          ######## ##    ##
+ ##    ##  ##       ##     ## ##     ##   ## ##   ##          ##       ###   ##
+ ##        ##       ##     ## ##     ##  ##   ##  ##          ##       ####  ##
+ ##   #### ##       ##     ## ########  ##     ## ##          ######   ## ## ##
+ ##    ##  ##       ##     ## ##     ## ######### ##          ##       ##  ####
+ ##    ##  ##       ##     ## ##     ## ##     ## ##          ##       ##   ###
+  ######   ########  #######  ########  ##     ## ########    ##       ##    ##
+*/
+void selectApp(uint8_t appIndex);
+
+// END _HEADER_h
+#endif
