@@ -28,6 +28,6 @@
 - [ ] Brightness potentiometer
 - [ ] Reset btn
 - [X] Select btn
-- [X] Battary
-- [ ] Battary ADC (battery level)
+- [X] Battery
+- [ ] Battery ADC (battery level)
 - [ ] Charger
