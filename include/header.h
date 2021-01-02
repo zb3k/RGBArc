@@ -84,7 +84,7 @@
 
 #define LONG_PRESS_WAIT 150
 #define LONG_PRESS_INTERVAL 50
-// #define EXIT_PRESS_WAIT 1000
+#define EXIT_PRESS_WAIT 1000
 
 /*
   ######  ##     ## ########   ######   #######  ########

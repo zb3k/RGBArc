@@ -49,7 +49,7 @@ public:
 
             // tens = time / 10;
             // ones = time % 10;
-            sound.tick();
+            // sound.tick();
             lcd.setScenePixel(this->time, COLOR_RED);
             // lcdChar(1, 2, tens, COLOR_PINK);
             // lcdChar(4, 2, ones, COLOR_DEEP_BLUE);

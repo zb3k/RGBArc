@@ -43,7 +43,7 @@ Sound sound;
 
 void setup()
 {
-  // Serial.begin(9600);
+  Serial.begin(115200);
 
   ctrl.setup();
 
@@ -65,10 +65,10 @@ void loop()
   ctrl.read();
 
   // FIXME: Slow
-  // if (ctrl.btnStart.pressedFor(EXIT_PRESS_WAIT))
-  // {
-  //     selectApp(0); // Open main menu
-  // }
+  if (ctrl.btnStart.pressedFor(EXIT_PRESS_WAIT))
+  {
+    selectApp(0); // Open main menu
+  }
 
   cursor.processing();
 
@@ -83,6 +83,8 @@ void loop()
   lcd.sync();
 
   sound.processing();
+
+  Serial.print('.');
 }
 
 // -----------------------------------------------------------------------------
@@ -91,9 +93,8 @@ void loop()
 
 void selectApp(uint8_t appIndex)
 {
-  // cursor.reset();
-  // lcd.clearScene();
-
+  cursor.reset();
+  lcd.clearScene();
   lcd.clear();
 
   currentApp = appIndex;
