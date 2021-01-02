@@ -11,17 +11,18 @@
 - [X] Game: menu
 - [ ] LCD: Display text
 - [ ] LCD: Fade, scroll animations
-- [ ] End game screen (score)
 - [ ] Win screen
 - [ ] Store records
 - [ ] Display level number
-- [ ] End game stat (level, ...)
+- [ ] End game stat (level, score, ...)
 - [ ] Flow: Add levels
-- [ ] Tetris: Fix rotate glitch
 - [ ] Tetris: show next figure as overlay
 - [ ] Maze: level generator
+- [ ] Reset all stat (power on with select)
+
+## BUGS:
+- [ ] Tetris: rotate glitch
 - [ ] Snake: Цель появляется на змее 
-- [ ] Reset all stat hotkeys
 
 # HARDWARE
 - [ ] Sound + ON/OFF Potentiometer
