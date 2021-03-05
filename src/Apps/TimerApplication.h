@@ -37,11 +37,12 @@ public:
             // decimals = 0;
         }
 
-        if (this->isSecondTick())
+        if (this->isPeriodComplete(PERIOD_1_S))
         {
             if (this->time == 60)
             {
                 this->time = 0;
+                Serial.println("Test");
                 // decimals++;
             }
             // uint8_t tens;
@@ -49,7 +50,7 @@ public:
 
             // tens = time / 10;
             // ones = time % 10;
-            // sound.tick();
+            sound.tick();
             lcd.setScenePixel(this->time, COLOR_RED);
             // lcdChar(1, 2, tens, COLOR_PINK);
             // lcdChar(4, 2, ones, COLOR_DEEP_BLUE);
@@ -59,12 +60,14 @@ public:
             //     lcd.setScenePixel(i, 4, decimals > i ? COLOR_PINK : COLOR_BLUE);
             // }
 
+            Serial.print('.');
+
             this->time++;
         }
     };
 
 private:
-    bool isSecondTick()
+    bool isPeriodComplete(uint16_t periodTime)
     {
         uint32_t now = millis();
 
@@ -75,7 +78,7 @@ private:
 
         if (now >= this->secondTick)
         {
-            this->secondTick += 1000;
+            this->secondTick += periodTime;
             return true;
         }
 

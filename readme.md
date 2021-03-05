@@ -1,7 +1,7 @@
 # PixelBoy
 
 ## Games:
-- [X] Paint
+- [X] Draw
 - [ ] Flow
 - [ ] Tetris
 - [ ] Maze

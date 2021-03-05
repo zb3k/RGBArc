@@ -9,14 +9,14 @@ public:
 
     void processing()
     {
-        // Next app icon
+        // Next app
         if (ctrl.btnRight.wasPressed() || ctrl.btnDown.wasPressed())
         {
             this->appIndex = this->appIndex >= TOTAL_APPS - 1 ? 1 : this->appIndex + 1;
             sound.beep();
         }
 
-        // Prev app icon
+        // Prev app
         if (ctrl.btnLeft.wasPressed() || ctrl.btnUp.wasPressed())
         {
             this->appIndex = this->appIndex == 1 ? TOTAL_APPS - 1 : this->appIndex - 1;

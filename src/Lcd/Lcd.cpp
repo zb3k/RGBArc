@@ -7,21 +7,33 @@
 
 void Lcd::setup()
 {
-    this->LED.setColorOrderRGB();
-    this->LED.setOutput(LCD_PIN);
+#ifdef LCD_USE_NEOPIXEL
+    NEO.begin();
+#else
+    LED.setColorOrderRGB();
+    LED.setOutput(LCD_PIN);
+#endif
 }
 
 void Lcd::setBrightness(uint8_t brightness)
 {
+#ifdef LCD_USE_NEOPIXEL
+    NEO.setBrightness(brightness);
+#else
     for (uint8_t i = 0; i < PALETTE_SIZE; i++)
     {
         this->paletteRGB[i] = this->colorBrightness(i, brightness);
     }
+#endif
 }
 
 void Lcd::sync()
 {
-    this->LED.sync();
+#ifdef LCD_USE_NEOPIXEL
+    NEO.show();
+#else
+    LED.sync();
+#endif
 }
 
 // -----------------------------------------------------------------------------
@@ -35,12 +47,20 @@ void Lcd::clear()
 
 void Lcd::setPixel(uint16_t vector, uint8_t colorIndex)
 {
-    this->LED.set_crgb_at(vector, this->paletteRGB[colorIndex]);
+#ifdef LCD_USE_NEOPIXEL
+    NEO.setPixelColor(vector, paletteRGB[colorIndex]);
+#else
+    LED.set_crgb_at(vector, this->paletteRGB[colorIndex]);
+#endif
 }
 
 void Lcd::setPixel(uint16_t vector, uint8_t colorIndex, uint8_t brightness)
 {
-    this->LED.set_crgb_at(vector, this->colorBrightness(colorIndex, brightness));
+#ifdef LCD_USE_NEOPIXEL
+    NEO.setPixelColor(vector, this->colorBrightness(colorIndex, brightness));
+#else
+    LED.set_crgb_at(vector, this->colorBrightness(colorIndex, brightness));
+#endif
 }
 
 void Lcd::fill(uint8_t colorIndex)
@@ -114,6 +134,18 @@ void Lcd::loadImageToScene(const uint8_t *image)
 // PRIVATE: Helpers
 // -----------------------------------------------------------------------------
 
+#ifdef LCD_USE_NEOPIXEL
+uint32_t Lcd::colorBrightness(uint8_t colorIndex, uint8_t brightness)
+{
+    uint32_t color = this->paletteRGB[colorIndex];
+
+    uint8_t r = map(color >> 16, 0, 255, 0, brightness);
+    uint8_t g = map(color >> 8 & 0xFF, 0, 255, 0, brightness);
+    uint8_t b = map(color & 0xFF, 0, 255, 0, brightness);
+
+    return NEO.Color(r, g, b);
+}
+#else
 cRGB Lcd::colorBrightness(uint8_t colorIndex, uint8_t brightness)
 {
     cRGB color = this->paletteRGB[colorIndex];
@@ -123,3 +155,4 @@ cRGB Lcd::colorBrightness(uint8_t colorIndex, uint8_t brightness)
 
     return color;
 }
+#endif
